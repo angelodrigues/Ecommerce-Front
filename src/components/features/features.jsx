@@ -68,8 +68,8 @@ export default function Features() {
     };
 
     return (
-<div>
-            <div className="lg:container mx-auto ">
+        <div className="bg-[#302c2c]">
+            <div className="lg:container mx-auto">
                 <SectionTitle title="Featured Products" mb='mb-11'></SectionTitle>
 
                 <div className="slider-container features_slider w-full h-full">
@@ -81,7 +81,7 @@ export default function Features() {
                                         <img className="w-full h-full object-cover" src={feature?.image} alt={feature?.title} />
                                         {
                                             feature?.status && (
-                                                <div className="absolute top-4 left-4 bg-[#007580] text-white px-2 py-1 rounded-lg">
+                                                <div className="absolute top-4 left-4 bg-[#dc7e27] text-white px-2 py-1 rounded-lg">
                                                     <button className="text-sm font-inter font-normal">{feature?.status}</button>
                                                 </div>
                                             )
@@ -89,14 +89,16 @@ export default function Features() {
                                     </div>
                                     <div className="feature_content">
                                         <div className="flex items-center justify-between">
-                                            <h4 className="text-base text-[#007580] capitalize font-inter font-normal mb-4">{feature?.title}</h4>
-                                            <span className="bg-[#007580] h-[44px] w-[44px] rounded-lg flex items-center justify-center"><ShoppingCart size='1.5rem' color="#fff"  /></span>
+                                            <h4 className="text-base text-[#dc7e27] capitalize font-inter font-normal mb-4">{feature?.title}</h4>
+                                            <span className="bg-[#dc7e27] h-[44px] w-[44px] rounded-lg flex items-center justify-center hover:bg-[#e8934a] transition-colors">
+                                                <ShoppingCart size='1.5rem' color="#fff" />
+                                            </span>
                                         </div>
-                                        <p className="text-xl flex items-center gap-2 text-[#272343] font-semibold font-inter ">
+                                        <p className="text-xl flex items-center gap-2 text-white font-semibold font-inter">
                                             {feature?.price} 
                                             {
                                                 feature?.currentPrice && (
-                                                    <span className="text-sm text-[#9a9caa] font-inter font-normal">{feature?.currentPrice}</span>
+                                                    <span className="text-sm text-gray-400 font-inter font-normal">{feature?.currentPrice}</span>
                                                 )
                                             }
                                         </p>
@@ -106,7 +108,6 @@ export default function Features() {
                         }
                     </Slider>
                 </div>
-
             </div>
         </div>
     );

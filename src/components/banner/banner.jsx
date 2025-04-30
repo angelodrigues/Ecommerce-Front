@@ -41,7 +41,7 @@ export default function Banner() {
     };
 
     return (
-        <div className="lg:container">
+        <div className="lg:container bg-[#302c2c]">
             <div className="slider-container slider_container w-full h-full">
                 <Slider {...settings}>
                     {
@@ -49,15 +49,14 @@ export default function Banner() {
                             <div key={product?.id} className="banner_slide_item">
 
                                 {/* banner text  */}
-                                <div className="banner_text">
-                                    <p className="text-sm font-inter text-[#272343] uppercase font-normal">{product?.subTitle}</p>
-                                    <h3 className="text-6xl text-[#272343] font-inter capitalize leading-16 max-w-[631px] w-full font-bold mb-5">{product?.title}</h3>
-                                    <button className="max-w-[171px] w-full flex items-center justify-center gap-2 h-[52px] bg-[#029fae] rounded-lg capitalize text-white cursor-pointer">shop now <MoveRight /></button>
+                                <div className="banner_text p-8">
+                                    <p className="text-sm font-inter text-[#dc7e27] uppercase font-normal mb-2">{product?.subTitle}</p>
+                                    <h3 className="text-6xl text-white font-inter capitalize leading-16 max-w-[641px] w-full font-bold mb-5">{product?.title}</h3>
+                                    <button className="max-w-[171px] w-full flex items-center justify-center gap-2 h-[52px] bg-[#dc7e27] rounded-lg capitalize text-white cursor-pointer hover:bg-[#e8934a] transition-colors">shop now <MoveRight /></button>
                                 </div>
 
-
                                 {/* banner image  */}
-                                <div className="banner_image  w-full h-full flex items-center justify-end">
+                                <div className="banner_image  w-full h-full flex items-center justify-end p-4">
                                     <img src={product?.image} alt={product?.title} />
                                 </div>
 

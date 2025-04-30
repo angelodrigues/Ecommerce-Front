@@ -32,8 +32,6 @@ export default function Product() {
         },
     ];
 
-
-
     const products = [
         {
             title: 'library stool',
@@ -218,7 +216,7 @@ export default function Product() {
 
 
     return (
-        <div className="lg:container mx-auto">
+        <div className="lg:container mx-auto bg-[#302c2c]">
             <div className="flex flex-col items-center justify-center">
                 <SectionTitle title={'our product'} textAlign={'center'} mb={'mb-5'}></SectionTitle>
 
@@ -232,8 +230,9 @@ export default function Product() {
                                     id: title?.id,
                                     product: title?.product
                                 })}
-                                className={`text-base font-black uppercase font-inter cursor-pointer ${active?.id === indx ? 'text-[#272343]' : 'text-[#9a9caa]'
-                                    }`}>
+                                className={`text-base font-black uppercase font-inter cursor-pointer ${
+                                    active?.id === indx ? 'text-[#dc7e27]' : 'text-gray-400 hover:text-[#dc7e27]'
+                                }`}>
                                 {title?.title}
                             </button>
                         ))
@@ -246,12 +245,12 @@ export default function Product() {
                 {
 
                     productFilter?.map((product, index) => (
-                        <div key={index} className="p-4">
+                        <div key={index} className="p-4 bg-[#3a3636] rounded-lg">
                             <div className="feature_image mb-4 relative">
                                 <img className="w-full max-h-[312px] rounded-lg object-cover" src={product?.image} alt={product?.title} />
                                 {
                                     product?.status && (
-                                        <div className="absolute top-4 left-4 bg-[#007580] text-white px-2 py-1 rounded-lg">
+                                        <div className="absolute top-4 left-4 bg-[#dc7e27] text-white px-2 py-1 rounded-lg">
                                             <button className="text-sm font-inter font-normal">{product?.status}</button>
                                         </div>
                                     )
@@ -259,14 +258,16 @@ export default function Product() {
                             </div>
                             <div className="feature_content">
                                 <div className="flex items-center justify-between">
-                                    <h4 className="text-base text-[#007580] capitalize font-inter font-normal mb-4">{product?.title}</h4>
-                                    <span className="bg-[#007580] h-[44px] w-[44px] rounded-lg flex items-center justify-center"><ShoppingCart size='1.5rem' color="#fff" /></span>
+                                    <h4 className="text-base text-[#dc7e27] capitalize font-inter font-normal mb-4">{product?.title}</h4>
+                                    <span className="bg-[#dc7e27] h-[44px] w-[44px] rounded-lg flex items-center justify-center hover:bg-[#e8934a] transition-colors">
+                                        <ShoppingCart size='1.5rem' color="#fff" />
+                                    </span>
                                 </div>
-                                <p className="text-xl flex items-center gap-2 text-[#272343] font-semibold font-inter ">
+                                <p className="text-xl flex items-center gap-2 text-white font-semibold font-inter">
                                     {product?.price}
                                     {
                                         product?.currentPrice && (
-                                            <span className="text-sm text-[#9a9caa] font-inter font-normal">{product?.currentPrice}</span>
+                                            <span className="text-sm text-gray-400 font-inter font-normal">{product?.currentPrice}</span>
                                         )
                                     }
                                 </p>

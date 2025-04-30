@@ -6,7 +6,7 @@ import Login from "../pages/auth/login/login";
 import Register from "../pages/auth/register/register";
 import AuthCheck from "../authCheck/authCheck";
 import Error from "../pages/error/error";
-
+import ProductPage from "../pages/product/product";
 
 export default function Main() {
   return (
@@ -20,12 +20,15 @@ export default function Main() {
                   <Home />
                 </AuthCheck>                
               }/>
+              <Route path='/product' element={
+                <AuthCheck>
+                  <ProductPage />
+                </AuthCheck>
+              }/>
               <Route path='/auth' element={<Auth />} >
                 <Route path='login' element={<Login />} />
                 <Route path='register' element={<Register />} />
-
               </Route>
-
               <Route path='*' element={<Error />} />
            </Routes>
         </BrowserRouter>
