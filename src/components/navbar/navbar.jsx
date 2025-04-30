@@ -29,7 +29,7 @@ export default function Navbar() {
                 <div className="lg:container grid grid-cols-3 items-center">
 
                     <div className="logo_wrapper">
-                        <Link to='/' className="text-3xl text-black font-inter font-medium capitalize flex items-center gap-2"><Armchair size='2rem' color="#029fae" /> Aninha</Link>
+                        <Link to='/' className="text-3xl text-black font-inter font-medium capitalize flex items-center gap-2"><Armchair size='2rem' color="#029fae" /> MagazineAninha</Link>
                     </div>
 
                     <div className="search_box">
@@ -72,8 +72,7 @@ export default function Navbar() {
                                 <li><a>Chair</a></li>
                                 <li><a>Pant</a></li>
                                 <li><a>Shirt</a></li>
-                                <li><a>T-Shirt</a></li>
-                                <li><a>T-Shirt</a></li>
+                                <li><a>T-Shirt</a></li>                                
                             </ul>
                         </div>
 
@@ -86,9 +85,8 @@ export default function Navbar() {
                         </nav>
                     </div>
 
-
                     <div className="navbar_bottom_right">
-                        <p className="text-sm text-[#636270] font-inter font-normal capitalize">contact: <span className="text-[#272343]">(808)555-0111</span></p>
+                        <p className="text-sm text-[#636270] font-inter font-normal capitalize">contact: <span className="text-[#272343]">(85) 9 9999-0111</span></p>
                     </div>
 
                 </div>
