@@ -9,9 +9,8 @@ export default function Navigation() {
       <div className="logo">Looks</div>
       <nav>
         <a href="#">Home</a>
-        <a href="#">About us</a>
-        <a href="#">Our services</a>
-        <a href="#">Gallery</a>
+        <a href="#">Products</a>
+        <a href="#">Recomendations</a>
       </nav>
       <button className="contact-button">Contact us</button>
     </header>
