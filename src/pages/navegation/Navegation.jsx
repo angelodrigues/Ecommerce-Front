@@ -6,7 +6,7 @@ import './Navegation.css';
 export default function Navigation() {
   return (
     <header className="nav-container">
-      <div className="logo">Looks</div>
+      <div className="logo">Lirili larila</div>
       <nav>
         <a href="#">Home</a>
         <a href="#">Products</a>
