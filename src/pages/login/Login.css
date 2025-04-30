@@ -27,9 +27,9 @@
   }
   
   .form input {
-    width: 100%;
+    width: 95%;
     padding: 0.9rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
     background: transparent;
     border: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
@@ -96,3 +96,37 @@
     text-decoration: underline;
   }
   
+
+  .floating-label {
+    position: relative;
+    margin-bottom: 0.5rem;
+  }
+  
+  .floating-label input {
+    width: 95%;
+    padding: 1rem 0.5rem 0.5rem;
+    font-size: 1rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    outline: none;
+  }
+  
+  .floating-label label {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    transition: 0.2s ease all;
+  }
+  
+  .floating-label input:focus + label,
+  .floating-label input:not(:placeholder-shown) + label {
+    top: -0.2rem;
+    left: 0;
+    font-size: 0.75rem;
+    color: #fcb900;
+  }

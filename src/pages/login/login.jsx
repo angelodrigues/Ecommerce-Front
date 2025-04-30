@@ -7,8 +7,16 @@ export default function Login() {
       <div className="login-card">
         <h2>Login</h2>
         <form className="form">
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
+          <div className="floating-label">
+            <input type="email" id="email" placeholder=" " required />
+            <label htmlFor="email">Email</label>
+          </div>
+
+          <div className="floating-label">
+            <input type="password" id="password" placeholder=" " required />
+            <label htmlFor="password">Password</label>
+          </div>
+
           <div className="options">
             <a href="#">Forgot Password?</a>
           </div>
