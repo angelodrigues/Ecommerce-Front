@@ -2,7 +2,7 @@ import Banner from "../../components/banner/banner";
 import Features from "../../components/features/features";
 import Brand from "../../components/brand/brand";
 import Product from "../../components/product/Product";
-
+import Footer from "../../components/footer/Footer";
 export default function Home() {
     return (
         <div>
@@ -24,6 +24,11 @@ export default function Home() {
             {/* product component */}
             <div className="w-full flex items-center justify-center mb-[80px]">
                 <Product></Product>
+            </div>
+
+            {/* footer component */}
+            <div className="w-full flex items-center justify-center mb-[80px]">
+                <Footer></Footer>
             </div>
         </div>
     );

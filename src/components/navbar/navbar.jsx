@@ -29,7 +29,7 @@ export default function Navbar() {
                 <div className="lg:container grid grid-cols-3 items-center">
 
                     <div className="logo_wrapper">
-                        <Link to='/' className="text-3xl text-black font-inter font-medium capitalize flex items-center gap-2"><Armchair size='2rem' color="#029fae" /> MagazineAninha</Link>
+                        <Link to='/' className="text-3xl text-black font-inter font-medium capitalize flex items-center gap-2"><Armchair size='2rem' color="#029fae" /> Maganinha</Link>
                     </div>
 
                     <div className="search_box">
