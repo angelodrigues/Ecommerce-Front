@@ -1,0 +1,46 @@
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    color: white;
+    padding: 1.5rem 3rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #fcb900;
+  }
+  
+  
+  nav a {
+    margin: 0 1rem;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  nav a:hover {
+    color: #fcb900;
+  }
+  
+  .contact-button {
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .contact-button:hover {
+    background: white;
+    color: black;
+  }
+  
