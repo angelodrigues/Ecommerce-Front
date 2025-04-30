@@ -9,6 +9,10 @@
     --font-inter: 'Inter', sans-serif;
 }
 
+body {
+    background-color: #fffdfd; /* Escolha a cor desejada */
+}
+
 .banner_slide_item {
     display: flex !important;
     justify-content: space-between;
