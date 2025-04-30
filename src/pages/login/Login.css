@@ -15,7 +15,7 @@
     border: 1px solid rgba(255, 255, 255, 0.132); 
     padding: 2.5rem;
     width: 100%;
-    max-width: 380px;
+    max-width: 360px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37); 
     color: white;
     transition: all 0.5s ease;
@@ -103,7 +103,7 @@
   }
   
   .floating-label input {
-    width: 95%;
+    width: 100%;
     padding: 1rem 0.5rem 0.5rem;
     font-size: 1rem;
     background: transparent;
@@ -130,3 +130,14 @@
     font-size: 0.75rem;
     color: #fcb900;
   }
+  .name-fields {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .floating-label.half {
+    width: 100%;
+    flex: 1;
+  }
+  
+  
