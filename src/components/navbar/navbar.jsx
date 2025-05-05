@@ -53,8 +53,8 @@ export default function Navbar() {
                         <div className="dropdown">
                             <div tabIndex={0} role="button" className="btn m-1"><User color="#dc7e27" /></div>
                             <ul tabIndex={0} className="dropdown-content menu bg-[#3a3636] text-white rounded-box z-1 w-52 p-2 shadow-sm">
-                                <li><a><Link>Account</Link></a></li>
-                                <li><a><Link>Logout</Link></a></li>
+                                <li><a><Link to="/auth/login">Login</Link></a></li>
+                                {/* <li><a><Link>Logout</Link></a></li> */}
                             </ul>
                         </div>
                     </div>
