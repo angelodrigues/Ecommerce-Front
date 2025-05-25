@@ -15,6 +15,14 @@
     --text-light: #ffffff;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--dark-bg);
+    min-height: 100vh;
+    color: var(--text-light);
+}
+
 body {
     background-color: var(--dark-bg);
     color: var(--text-light);

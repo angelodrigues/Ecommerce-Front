@@ -1,9 +1,9 @@
-import Login from "./login/login";
+import { Outlet } from "react-router";
 
 export default function Auth() {
     return (
         <div>
-            <Login/>
+            <Outlet />
         </div>
     );
 }

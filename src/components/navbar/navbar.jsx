@@ -1,7 +1,21 @@
 import { Armchair, Check, Heart, Info, Menu, Search, ShoppingCart, User } from "lucide-react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate, useLocation } from "react-router";
+import { useAuth } from '../../authCheck/AuthContext';
+import { useCart } from '../../service/CartContext';
 
 export default function Navbar() {
+    const { user, logout } = useAuth();
+    const { cartCount } = useCart();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleLogout = () => {
+      logout();
+      if (location.pathname === '/auth/user') {
+        navigate('/auth/login');
+      }
+    };
+
     return (
         <div className="bg-[#302c2c]">
             {/* nabvar top  */}
@@ -43,8 +57,8 @@ export default function Navbar() {
                     {/* navbar middle right  */}
                     <div className="navbar_middle_right flex items-center gap-4">
 
-                        <button className="btn capitalize text-white">
-                            <ShoppingCart color="#dc7e27" /> cart <div className="badge badge-sm bg-[#dc7e27]">2</div>
+                        <button className="btn capitalize text-white" onClick={() => navigate('/cart')}>
+                            <ShoppingCart color="#dc7e27" /> cart <div className="badge badge-sm bg-[#dc7e27]">{cartCount}</div>
                         </button>
                         <button className="btn capitalize text-white">
                             <Heart color="#dc7e27" />
@@ -53,8 +67,18 @@ export default function Navbar() {
                         <div className="dropdown">
                             <div tabIndex={0} role="button" className="btn m-1"><User color="#dc7e27" /></div>
                             <ul tabIndex={0} className="dropdown-content menu bg-[#3a3636] text-white rounded-box z-1 w-52 p-2 shadow-sm">
-                                <li><a><Link to="/auth/login">Login</Link></a></li>
-                                {/* <li><a><Link>Logout</Link></a></li> */}
+                                {user && (
+                                  <li className="pointer-events-none select-none text-center text-xs text-[#dc7e27] font-bold mb-1">{user.name}</li>
+                                )}
+                                {user && (
+                                  <li><button onClick={() => navigate('/auth/user')}>Perfil</button></li>
+                                )}
+                                {!user && (
+                                  <li><a><Link to="/auth/login">Login</Link></a></li>
+                                )}
+                                {user && (
+                                  <li><button onClick={handleLogout}>Logout</button></li>
+                                )}
                             </ul>
                         </div>
                     </div>
@@ -101,14 +125,14 @@ export default function Navbar() {
                             >
                                 product
                             </NavLink>
-                            <NavLink 
+                            {/* <NavLink 
                                 to='/pages' 
                                 className={({ isActive }) => 
                                     `text-sm font-inter font-medium capitalize ${isActive ? 'text-[#dc7e27]' : 'text-white hover:text-[#dc7e27]'}`
                                 }
                             >
                                 pages
-                            </NavLink>
+                            </NavLink> */}
                             <NavLink 
                                 to='/about' 
                                 className={({ isActive }) => 

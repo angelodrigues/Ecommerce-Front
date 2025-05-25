@@ -1,15 +1,15 @@
 import { Navigate, useLocation } from "react-router";
+import { useAuth } from "./AuthContext";
 
 export default function AuthCheck({children}) {
-
-    //Trocar dps para false
-    const isAuthenticate = true;
+    const { user } = useAuth();
     const location = useLocation();
     
-    if(!isAuthenticate) {
-        return <Navigate to="/auth/login" state={
-            {from: location}
-        }/>
+    if(!user) {
+        if (location.pathname === '/auth/user') {
+            return <Navigate to="/auth/login" state={{from: location}} />
+        }
+        return <Navigate to="/error" state={{from: location}} />
     }
     
     return children;
