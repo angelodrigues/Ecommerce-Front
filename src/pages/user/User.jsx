@@ -1,73 +1,117 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './user.css';
+import { getAuthToken } from '../../authCheck/tokenUtils';
 
 export default function User() {
-  const [userData, setUserData] = useState({
-    firstName: 'Angelo',
-    lastName: 'Silva',
-    email: 'angelo@gmail.com',
-    phone: '(85) 99999-9999',
-    address: {
-      street: 'Rua Example',
-      number: '123',
-      complement: 'Apto 101',
-      neighborhood: 'Centro',
-      city: 'Fortaleza',
-      state: 'CE',
-      zipCode: '60000-000'
-    },
-    orders: [
-      {
-        id: '1',
-        date: '2024-03-20',
-        status: 'Delivered',
-        total: 'R$ 299,90'
-      },
-      {
-        id: '2',
-        date: '2024-03-15',
-        status: 'Processing',
-        total: 'R$ 159,90'
-      }
-    ]
-  });
-
+  const [userData, setUserData] = useState(null);
+  const [editedData, setEditedData] = useState(null);
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [editedAddress, setEditedAddress] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedData, setEditedData] = useState(userData);
 
-  const handleInputChange = (e) => {
+  const token = getAuthToken();
+
+  useEffect(() => {
+    if (!token) return;
+
+    fetch('http://localhost:8090/user/profile', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(res => res.ok ? res.json() : Promise.reject('Erro ao buscar perfil'))
+      .then(data => {
+        setUserData(data);
+        setEditedData(data);
+      })
+      .catch(err => console.error(err));
+
+    fetch('http://localhost:8090/user/addresses', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(res => res.ok ? res.json() : Promise.reject('Erro ao buscar endereços'))
+      .then(data => {
+        setAddresses(data);
+        const defaultAddr = data.find(a => a.defaultAddress) || data[0];
+        setSelectedAddressId(defaultAddr?.id || null);
+        setEditedAddress(defaultAddr || {});
+      })
+      .catch(err => console.error(err));
+  }, [token]);
+
+  const handleProfileChange = (e) => {
     const { name, value } = e.target;
-    if (name.includes('.')) {
-      const [parent, child] = name.split('.');
-      setEditedData(prev => ({
-        ...prev,
-        [parent]: {
-          ...prev[parent],
-          [child]: value
-        }
-      }));
-    } else {
-      setEditedData(prev => ({
-        ...prev,
-        [name]: value
-      }));
+    setEditedData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setEditedAddress(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    try {
+      const resProfile = await fetch('http://localhost:8090/user/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(editedData),
+      });
+      const updatedProfile = await resProfile.json();
+      setUserData(updatedProfile);
+      setEditedData(updatedProfile);
+
+      if (editedAddress?.id) {
+        await fetch(`http://localhost:8090/user/addresses/${editedAddress.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(editedAddress),
+        });
+      } else {
+        await fetch(`http://localhost:8090/user/addresses`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(editedAddress),
+        });
+      }
+
+      if (editedAddress?.defaultAddress) {
+        await fetch(`http://localhost:8090/user/profile/default-address/${editedAddress.id}`, {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+
+      const resAddr = await fetch('http://localhost:8090/user/addresses', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const freshAddresses = await resAddr.json();
+      setAddresses(freshAddresses);
+      const freshDefault = freshAddresses.find(a => a.defaultAddress) || freshAddresses[0];
+      setSelectedAddressId(freshDefault.id);
+      setEditedAddress(freshDefault);
+      setIsEditing(false);
+
+    } catch (err) {
+      console.error('Erro ao salvar dados:', err);
     }
   };
 
-  const handleSave = () => {
-    setUserData(editedData);
-    setIsEditing(false);
-  };
+  if (!userData) return <div className="text-white p-4">Carregando perfil...</div>;
 
   return (
     <div className="user-section">
       <div className="user-card">
         <div className="user-header">
           <h2 className="text-4xl text-white font-inter capitalize p-4">My Profile</h2>
-          <button 
-            className="edit-button"
-            onClick={() => setIsEditing(!isEditing)}
-          >
+          <button className="edit-button" onClick={() => setIsEditing(!isEditing)}>
             {isEditing ? 'Cancel' : 'Edit Profile'}
           </button>
         </div>
@@ -81,7 +125,7 @@ export default function User() {
                   type="text"
                   name="firstName"
                   value={isEditing ? editedData.firstName : userData.firstName}
-                  onChange={handleInputChange}
+                  onChange={handleProfileChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
@@ -92,7 +136,7 @@ export default function User() {
                   type="text"
                   name="lastName"
                   value={isEditing ? editedData.lastName : userData.lastName}
-                  onChange={handleInputChange}
+                  onChange={handleProfileChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
@@ -103,7 +147,7 @@ export default function User() {
                   type="email"
                   name="email"
                   value={isEditing ? editedData.email : userData.email}
-                  onChange={handleInputChange}
+                  onChange={handleProfileChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
@@ -114,7 +158,7 @@ export default function User() {
                   type="tel"
                   name="phone"
                   value={isEditing ? editedData.phone : userData.phone}
-                  onChange={handleInputChange}
+                  onChange={handleProfileChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
@@ -125,13 +169,36 @@ export default function User() {
 
           <div className="profile-section">
             <h3 className="section-title">Address Information</h3>
+            {addresses.length > 0 && (
+            <div className="select-wrapper">
+            <label htmlFor="address-select" className="select-label-text">Select address: </label>
+            <select
+              id="address-select"
+              className="select-input"
+              value={selectedAddressId || ''}
+              onChange={(e) => {
+                const selected = addresses.find(a => a.id === parseInt(e.target.value));
+                setSelectedAddressId(selected.id);
+                setEditedAddress(selected);
+              }}
+              disabled={!isEditing}
+            >
+              {addresses.map(a => (
+                <option key={a.id} value={a.id}>
+                  {a.street}, {a.number} {a.defaultAddress ? '(Padrão)' : ''}
+                </option>
+              ))}
+            </select>
+          </div>
+            )}
+
             <div className="form-grid">
               <div className="floating-label">
                 <input
                   type="text"
-                  name="address.street"
-                  value={isEditing ? editedData.address.street : userData.address.street}
-                  onChange={handleInputChange}
+                  name="street"
+                  value={editedAddress?.street || ''}
+                  onChange={handleAddressChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
@@ -140,9 +207,9 @@ export default function User() {
               <div className="floating-label half">
                 <input
                   type="text"
-                  name="address.number"
-                  value={isEditing ? editedData.address.number : userData.address.number}
-                  onChange={handleInputChange}
+                  name="number"
+                  value={editedAddress?.number || ''}
+                  onChange={handleAddressChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
@@ -151,9 +218,9 @@ export default function User() {
               <div className="floating-label half">
                 <input
                   type="text"
-                  name="address.complement"
-                  value={isEditing ? editedData.address.complement : userData.address.complement}
-                  onChange={handleInputChange}
+                  name="complement"
+                  value={editedAddress?.complement || ''}
+                  onChange={handleAddressChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
@@ -162,9 +229,9 @@ export default function User() {
               <div className="floating-label">
                 <input
                   type="text"
-                  name="address.neighborhood"
-                  value={isEditing ? editedData.address.neighborhood : userData.address.neighborhood}
-                  onChange={handleInputChange}
+                  name="neighborhood"
+                  value={editedAddress?.neighborhood || ''}
+                  onChange={handleAddressChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
@@ -173,9 +240,9 @@ export default function User() {
               <div className="floating-label half">
                 <input
                   type="text"
-                  name="address.city"
-                  value={isEditing ? editedData.address.city : userData.address.city}
-                  onChange={handleInputChange}
+                  name="city"
+                  value={editedAddress?.city || ''}
+                  onChange={handleAddressChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
@@ -184,9 +251,9 @@ export default function User() {
               <div className="floating-label quarter">
                 <input
                   type="text"
-                  name="address.state"
-                  value={isEditing ? editedData.address.state : userData.address.state}
-                  onChange={handleInputChange}
+                  name="state"
+                  value={editedAddress?.state || ''}
+                  onChange={handleAddressChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
@@ -195,43 +262,38 @@ export default function User() {
               <div className="floating-label quarter">
                 <input
                   type="text"
-                  name="address.zipCode"
-                  value={isEditing ? editedData.address.zipCode : userData.address.zipCode}
-                  onChange={handleInputChange}
+                  name="zipCode"
+                  value={editedAddress?.zipCode || ''}
+                  onChange={handleAddressChange}
                   disabled={!isEditing}
                   placeholder=" "
                 />
                 <label>ZIP Code</label>
               </div>
             </div>
-          </div>
 
-          <div className="profile-section">
-            <h3 className="section-title">Recent Orders</h3>
-            <div className="orders-list">
-              {userData.orders.map(order => (
-                <div key={order.id} className="order-item">
-                  <div className="order-info">
-                    <span className="order-id">Order #{order.id}</span>
-                    <span className="order-date">{order.date}</span>
-                    <span className="order-status">{order.status}</span>
-                    <span className="order-total">{order.total}</span>
-                  </div>
-                  <button className="view-order-button">View Details</button>
-                </div>
-              ))}
-            </div>
+            {isEditing && (
+              <div className="form-group switch-group">
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={editedAddress?.defaultAddress || false}
+                    onChange={(e) => setEditedAddress(prev => ({ ...prev, defaultAddress: e.target.checked }))}
+                  />
+                  <span className="slider round"></span>
+                </label>
+                <label className="switch-label">Definir como endereço padrão</label>
+              </div>
+            )}
           </div>
 
           {isEditing && (
             <div className="save-section">
-              <button className="save-button" onClick={handleSave}>
-                Save Changes
-              </button>
+              <button className="save-button" onClick={handleSave}>Save Changes</button>
             </div>
           )}
         </div>
       </div>
     </div>
   );
-} 
+}

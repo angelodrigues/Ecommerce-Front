@@ -6,7 +6,6 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Tenta recuperar usuário do localStorage ao iniciar
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -23,6 +22,8 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('user');
   };
 
+  
+
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
       {children}
@@ -32,4 +33,4 @@ export function AuthProvider({ children }) {
 
 export function useAuth() {
   return useContext(AuthContext);
-} 
+}
