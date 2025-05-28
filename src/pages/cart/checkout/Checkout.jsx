@@ -91,35 +91,35 @@ export default function Checkout() {
 
   return (
     <div className="checkout-section">
-      <h2 className="checkout-title">Confirmação de Compra</h2>
+      <h2 className="checkout-title">Purchase Confirmation</h2>
 
       {step === 1 && (
         <div className="checkout-summary">
-          <h3 className="checkout-subtitle">Resumo do Pedido</h3>
+          <h3 className="checkout-subtitle">Order Summary</h3>
           <ul className="checkout-list">
             {cart.map(item => (
               <li key={item.id} className="checkout-item">
                 <span>{item.name} x{item.quantity}</span>
-                <span>R$ {(item.price * item.quantity).toFixed(2)}</span>
+                <span>${(item.price * item.quantity).toFixed(2)}</span>
               </li>
             ))}
           </ul>
           <div className="checkout-total">
             <span>Total:</span>
-            <span className="cart-total">R$ {total.toFixed(2)}</span>
+            <span className="cart-total">${total.toFixed(2)}</span>
           </div>
         </div>
       )}
 
       {step === 2 && (
         <div className="checkout-address">
-          <h3 className="checkout-subtitle">Endereço de Entrega</h3>
+          <h3 className="checkout-subtitle">Delivery Address</h3>
           {addresses.length > 0 && (
             <div className="address-list">
               {addresses.map(addr => (
                 <div key={addr.id} className={`address-item ${selectedAddress?.id === addr.id ? 'selected' : ''}`} onClick={() => setSelectedAddress(addr)}>
                   <div className="address-header">
-                    <span className="address-title">{addr.street}, {addr.number} {addr.defaultAddress && <span className="default-badge">Padrão</span>}</span>
+                    <span className="address-title">{addr.street}, {addr.number} {addr.defaultAddress && <span className="default-badge">Default</span>}</span>
                   </div>
                   <p className="address-details">{addr.complement && `${addr.complement} - `}{addr.neighborhood}, {addr.city} - {addr.state}</p>
                 </div>
@@ -128,26 +128,26 @@ export default function Checkout() {
           )}
 
           <div className="new-address-form">
-            <h4 className="form-title">Adicionar Novo Endereço</h4>
-            <div className="form-group"><label>CEP</label><input value={newAddress.zipCode} onChange={(e) => { const cep = e.target.value.replace(/\D/g, ''); setNewAddress(p => ({ ...p, zipCode: cep })); if (cep.length === 8) handleCepSearch(cep); }} /></div>
+            <h4 className="form-title">Add New Address</h4>
+            <div className="form-group"><label>ZIP Code</label><input value={newAddress.zipCode} onChange={(e) => { const cep = e.target.value.replace(/\D/g, ''); setNewAddress(p => ({ ...p, zipCode: cep })); if (cep.length === 8) handleCepSearch(cep); }} /></div>
             <div className="form-row">
-              <div className="form-group"><label>Rua</label><input value={newAddress.street} onChange={e => setNewAddress(p => ({ ...p, street: e.target.value }))} /></div>
-              <div className="form-group"><label>Número</label><input value={newAddress.number} onChange={e => setNewAddress(p => ({ ...p, number: e.target.value }))} /></div>
+              <div className="form-group"><label>Street</label><input value={newAddress.street} onChange={e => setNewAddress(p => ({ ...p, street: e.target.value }))} /></div>
+              <div className="form-group"><label>Number</label><input value={newAddress.number} onChange={e => setNewAddress(p => ({ ...p, number: e.target.value }))} /></div>
             </div>
-            <div className="form-group"><label>Complemento</label><input value={newAddress.complement} onChange={e => setNewAddress(p => ({ ...p, complement: e.target.value }))} /></div>
+            <div className="form-group"><label>Complement</label><input value={newAddress.complement} onChange={e => setNewAddress(p => ({ ...p, complement: e.target.value }))} /></div>
             <div className="form-row">
-              <div className="form-group"><label>Bairro</label><input value={newAddress.neighborhood} onChange={e => setNewAddress(p => ({ ...p, neighborhood: e.target.value }))} /></div>
-              <div className="form-group"><label>Cidade</label><input value={newAddress.city} onChange={e => setNewAddress(p => ({ ...p, city: e.target.value }))} /></div>
-              <div className="form-group"><label>Estado</label><input value={newAddress.state} onChange={e => setNewAddress(p => ({ ...p, state: e.target.value }))} maxLength={2} /></div>
+              <div className="form-group"><label>Neighborhood</label><input value={newAddress.neighborhood} onChange={e => setNewAddress(p => ({ ...p, neighborhood: e.target.value }))} /></div>
+              <div className="form-group"><label>City</label><input value={newAddress.city} onChange={e => setNewAddress(p => ({ ...p, city: e.target.value }))} /></div>
+              <div className="form-group"><label>State</label><input value={newAddress.state} onChange={e => setNewAddress(p => ({ ...p, state: e.target.value }))} maxLength={2} /></div>
             </div>
             <div className="form-group switch-group">
               <label className="switch">
                 <input type="checkbox" checked={newAddress.defaultAddress} onChange={e => setNewAddress(p => ({ ...p, defaultAddress: e.target.checked }))} />
                 <span className="slider round"></span>
               </label>
-              <label className="switch-label">Definir como endereço padrão</label>
+              <label className="switch-label">Set as default address</label>
             </div>
-            <button className="add-address-btn" onClick={handleAddAddress}>Adicionar Endereço</button>
+            <button className="add-address-btn" onClick={handleAddAddress}>Add Address</button>
           </div>
         </div>
       )}
@@ -185,17 +185,17 @@ export default function Checkout() {
       <div className="checkout-actions">
         {step > 1 && (
           <button className="cart-continue" onClick={() => setStep(step - 1)} style={{ marginRight: 12 }}>
-            Voltar
+            Back
           </button>
         )}
         {step < 3 && (
           <button className="cart-continue" onClick={() => setStep(step + 1)}>
-            Próximo
+            Next
           </button>
         )}
         {step === 3 && (
           <button className="cart-continue" disabled={!canFinish}>
-            Finalizar Compra
+            Complete Purchase
           </button>
         )}
       </div>
