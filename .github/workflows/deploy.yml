@@ -56,4 +56,4 @@ jobs:
 
             docker stop frontend || true && docker rm frontend || true
 
-            docker run -d --name frontend -p 8888:8888 ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+            docker run -d --name frontend -p 8888:80 ${{ secrets.DOCKER_USERNAME }}/frontend:latest
