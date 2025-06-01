@@ -2,7 +2,7 @@ import Banner from "../../components/banner/banner";
 import Features from "../../components/features/features";
 import Brand from "../../components/brand/brand";
 import Product from "../../components/product/product";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer/footer";
 export default function Home() {
     return (
         <div>
