@@ -28,7 +28,7 @@ export default function Banner() {
             id: 4,
             title: "The most comfortable chairs in the world",
             subTitle: "welcome to chairs",
-            image: "public/assets/Banner/banner_image.png"
+            image: "assets/Banner/banner_image.png"
         },
     ]
 
