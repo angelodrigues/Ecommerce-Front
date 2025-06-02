@@ -1,8 +1,11 @@
 import { useState } from "react";
 import SectionTitle from "../section/sectionTitle";
 import { ShoppingCart } from "lucide-react";
+import { useCart } from "../../service/CartContext";
 
 export default function Product() {
+
+    const { setCart } = useCart();
 
     const [active, setActive] = useState({
         id: 0,
@@ -259,7 +262,16 @@ export default function Product() {
                             <div className="feature_content">
                                 <div className="flex items-center justify-between">
                                     <h4 className="text-base text-[#dc7e27] capitalize font-inter font-normal mb-4">{product?.title}</h4>
-                                    <span className="bg-[#dc7e27] h-[44px] w-[44px] rounded-lg flex items-center justify-center hover:bg-[#e8934a] transition-colors">
+                                    <span
+                                        className="bg-[#dc7e27] h-[44px] w-[44px] rounded-lg flex items-center justify-center hover:bg-[#e8934a] transition-colors cursor-pointer"
+                                        onClick={() => setCart([{ 
+                                            id: Date.now() + index, 
+                                            name: product.title, 
+                                            price: Number(product.price.replace('$', '')), 
+                                            quantity: 1, 
+                                            image: product.image 
+                                        }])}
+                                    >
                                         <ShoppingCart size='1.5rem' color="#fff" />
                                     </span>
                                 </div>
