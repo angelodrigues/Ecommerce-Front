@@ -31,7 +31,7 @@ export default function Login() {
 
     try {
       if (isLogin) {
-        const response = await fetch('http://localhost:8090/auth/login', {
+        const response = await fetch('http://15.229.86.212:8090/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -49,7 +49,7 @@ export default function Login() {
         login({ email: formData.email, token: data.token });
         navigate('/auth/user');
       } else {
-      const response = await fetch('http://localhost:8090/auth/register', {
+      const response = await fetch('http://15.229.86.212:8090/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
