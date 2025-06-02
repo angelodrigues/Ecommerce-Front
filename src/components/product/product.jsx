@@ -37,6 +37,7 @@ export default function Product() {
 
     const products = [
         {
+            id: 1,
             title: 'library stool',
             status: 'New',
             price: '$250',
@@ -45,6 +46,7 @@ export default function Product() {
             product: 'newest',
         },
         {
+            id: 2,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -52,6 +54,7 @@ export default function Product() {
             product: 'newest',
         },
         {
+            id: 3,
             title: 'library stool',
             status: 'New',
             price: '$250',
@@ -60,6 +63,7 @@ export default function Product() {
             product: 'newest',
         },
         {
+            id: 4,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -68,6 +72,7 @@ export default function Product() {
         },
 
         {
+            id: 5,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -75,6 +80,7 @@ export default function Product() {
             product: 'trending',
         },
         {
+            id: 6,
             title: 'library stool',
             status: 'New',
             price: '$250',
@@ -83,6 +89,7 @@ export default function Product() {
             product: 'trending',
         },
         {
+            id: 7,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -90,6 +97,7 @@ export default function Product() {
             product: 'trending',
         },
         {
+            id: 8,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -97,6 +105,7 @@ export default function Product() {
             product: 'trending',
         },
         {
+            id: 9,
             title: 'library stool',
             status: 'New',
             price: '$250',
@@ -105,6 +114,7 @@ export default function Product() {
             product: 'best_seller',
         },
         {
+            id: 10,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -112,6 +122,7 @@ export default function Product() {
             product: 'best_seller',
         },
         {
+            id: 11,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -119,6 +130,7 @@ export default function Product() {
             product: 'best_seller',
         },
         {
+            id: 12,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -126,6 +138,7 @@ export default function Product() {
             product: 'best_seller',
         },
         {
+            id: 13,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -133,6 +146,7 @@ export default function Product() {
             product: 'featured',
         },
         {
+            id: 14,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -140,6 +154,7 @@ export default function Product() {
             product: 'featured',
         },
         {
+            id: 15,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -147,6 +162,7 @@ export default function Product() {
             product: 'featured',
         },
         {
+            id: 16,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -154,6 +170,7 @@ export default function Product() {
             product: 'featured',
         },
         {
+            id: 17,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -161,6 +178,7 @@ export default function Product() {
             product: 'all',
         },
         {
+            id: 18,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -168,6 +186,7 @@ export default function Product() {
             product: 'all',
         },
         {
+            id: 19,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -175,6 +194,7 @@ export default function Product() {
             product: 'all',
         },
         {
+            id: 20,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -182,6 +202,7 @@ export default function Product() {
             product: 'all',
         },
         {
+            id: 21,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -189,6 +210,7 @@ export default function Product() {
             product: 'all',
         },
         {
+            id: 22,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -196,6 +218,7 @@ export default function Product() {
             product: 'all',
         },
         {
+            id: 23,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -203,6 +226,7 @@ export default function Product() {
             product: 'all',
         },
         {
+            id: 24,
             title: 'library stool Chair',
             status: 'Sales',
             price: '$250',
@@ -265,7 +289,7 @@ export default function Product() {
                                     <span
                                         className="bg-[#dc7e27] h-[44px] w-[44px] rounded-lg flex items-center justify-center hover:bg-[#e8934a] transition-colors cursor-pointer"
                                         onClick={() => addToCart({ 
-                                            id: Date.now() + index, 
+                                            id: product.id,
                                             name: product.title, 
                                             price: Number(product.price.replace('$', '')), 
                                             quantity: 1, 

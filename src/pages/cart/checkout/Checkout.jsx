@@ -5,7 +5,7 @@ import CreditCardPreview from '../../../components/creditCard/CreditCardPreview'
 import { getAuthToken } from '../../../authCheck/tokenUtils';
 
 export default function Checkout() {
-  const { cart } = useCart();
+  const { cart, removeFromCart } = useCart();
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const token = getAuthToken();
 
@@ -98,15 +98,16 @@ export default function Checkout() {
           <h3 className="checkout-subtitle">Order Summary</h3>
           <ul className="checkout-list">
             {cart.map(item => (
-              <li key={item.id} className="checkout-item">
+              <li key={item.id} className="checkout-item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span>{item.name} x{item.quantity}</span>
                 <span>${(item.price * item.quantity).toFixed(2)}</span>
+                <button style={{marginLeft: 16, background: '#dc7e27', color: '#fff', border: 'none', borderRadius: 6, padding: '4px 12px', cursor: 'pointer'}} onClick={() => removeFromCart(item.id)}>Remover</button>
               </li>
             ))}
           </ul>
           <div className="checkout-total">
             <span>Total:</span>
-            <span className="cart-total">${total.toFixed(2)}</span>
+            <span className="cart-total">${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</span>
           </div>
         </div>
       )}
