@@ -33,18 +33,19 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            echo "Parando e removendo container antigo (se existir)..."
-            docker stop frontend || true
-            docker rm -f frontend || true
+              echo "Parando e removendo container antigo (se existir)..."
+              docker stop frontend || true
+              docker rm -f frontend || true
 
-            echo "Liberando porta 8888 se estiver travada..."
-            fuser -k 8888/tcp || true
+              echo "Liberando porta 8888 de processos travados..."
+              sudo fuser -k 8888/tcp || true
 
-            echo "Removendo imagem antiga (opcional)..."
-            docker image prune -f || true
+              echo "Removendo imagem antiga (opcional)..."
+              docker image prune -f || true
 
-            echo "Pull da nova imagem..."
-            docker pull ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+              echo "Pull da nova imagem..."
+              docker pull ${{ secrets.DOCKER_USERNAME }}/frontend:latest
 
-            echo "Subindo novo container na porta 8888..."
-            docker run -d --name frontend -p 8888:80 ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+              echo "Executando novo container na porta 8888..."
+              docker run -d --name frontend -p 8888:80 ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+
