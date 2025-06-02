@@ -51,9 +51,22 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
+            echo "Parando container existente (se houver)..."
+            docker stop frontend || true
+            sleep 2
 
+            echo "Removendo container existente (se houver)..."
+            docker rm frontend || true
+            sleep 2
+
+            echo "Removendo possíveis containers travados na porta 8888..."
+            FRONTEND_ID=$(docker ps -aqf "name=frontend")
+            if [ ! -z "$FRONTEND_ID" ]; then
+              docker rm -f $FRONTEND_ID
+            fi
+
+            echo "Puxando imagem atualizada do frontend..."
             docker pull ${{ secrets.DOCKER_USERNAME }}/frontend:latest
 
-            docker stop frontend || true && docker rm frontend || true
-
+            echo "Subindo novo container do frontend..."
             docker run -d --name frontend -p 8888:80 ${{ secrets.DOCKER_USERNAME }}/frontend:latest
