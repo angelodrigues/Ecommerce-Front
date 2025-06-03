@@ -15,7 +15,7 @@ export default function User() {
   useEffect(() => {
     if (!token) return;
 
-    fetch('http://15.229.86.212:8090/user/profile', {
+    fetch('http://52.67.254.235:8090/user/profile', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.ok ? res.json() : Promise.reject('Erro ao buscar perfil'))
@@ -25,7 +25,7 @@ export default function User() {
       })
       .catch(err => console.error(err));
 
-    fetch('http://15.229.86.212:8090/user/addresses', {
+    fetch('http://52.67.254.235:8090/user/addresses', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.ok ? res.json() : Promise.reject('Erro ao buscar endereços'))
@@ -50,7 +50,7 @@ export default function User() {
 
   const handleSave = async () => {
     try {
-      const resProfile = await fetch('http://15.229.86.212:8090/user/profile', {
+      const resProfile = await fetch('http://52.67.254.235:8090/user/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export default function User() {
       setEditedData(updatedProfile);
 
       if (editedAddress?.id) {
-        await fetch(`http://15.229.86.212:8090/user/addresses/${editedAddress.id}`, {
+        await fetch(`http://52.67.254.235:8090/user/addresses/${editedAddress.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export default function User() {
           body: JSON.stringify(editedAddress),
         });
       } else {
-        await fetch(`http://15.229.86.212:8090/user/addresses`, {
+        await fetch(`http://52.67.254.235:8090/user/addresses`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -83,13 +83,13 @@ export default function User() {
       }
 
       if (editedAddress?.defaultAddress) {
-        await fetch(`http://15.229.86.212:8090/user/profile/default-address/${editedAddress.id}`, {
+        await fetch(`http://52.67.254.235:8090/user/profile/default-address/${editedAddress.id}`, {
           method: 'PUT',
           headers: { Authorization: `Bearer ${token}` },
         });
       }
 
-      const resAddr = await fetch('http://15.229.86.212:8090/user/addresses', {
+      const resAddr = await fetch('http://52.67.254.235:8090/user/addresses', {
         headers: { Authorization: `Bearer ${token}` },
       });
       const freshAddresses = await resAddr.json();

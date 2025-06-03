@@ -25,7 +25,7 @@ export default function Checkout() {
 
   useEffect(() => {
     if (!token) return;
-    fetch('http://15.229.86.212:8090/user/addresses', {
+    fetch('http://52.67.254.235:8090/user/addresses', {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.ok ? res.json() : Promise.reject('Erro ao buscar endereços'))
@@ -61,7 +61,7 @@ export default function Checkout() {
   const handleAddAddress = async () => {
     if (!newAddress.zipCode || !newAddress.street || !newAddress.number) return;
     try {
-      const res = await fetch('http://15.229.86.212:8090/user/addresses', {
+      const res = await fetch('http://52.67.254.235:8090/user/addresses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(newAddress)
@@ -70,13 +70,13 @@ export default function Checkout() {
       const created = await res.json();
 
       if (newAddress.defaultAddress) {
-        await fetch(`http://15.229.86.212:8090/user/profile/default-address/${created.id}`, {
+        await fetch(`http://52.67.254.235:8090/user/profile/default-address/${created.id}`, {
           method: 'PUT',
           headers: { Authorization: `Bearer ${token}` }
         });
       }
 
-      const fresh = await fetch('http://15.229.86.212:8090/user/addresses', {
+      const fresh = await fetch('http://52.67.254.235:8090/user/addresses', {
         headers: { Authorization: `Bearer ${token}` }
       }).then(r => r.json());
 
