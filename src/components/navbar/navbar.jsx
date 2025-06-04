@@ -71,7 +71,10 @@ export default function Navbar() {
                                   <li className="pointer-events-none select-none text-center text-xs text-[#dc7e27] font-bold mb-1">{user.name}</li>
                                 )}
                                 {user && (
-                                  <li><button onClick={() => navigate('/auth/user')}>Perfil</button></li>
+                                  <li><button onClick={() => navigate('/auth/user')}>Profile</button></li>
+                                )}
+                                {user && (
+                                  <li><button onClick={() => navigate('/product/management')}>Manage Products</button></li>
                                 )}
                                 {!user && (
                                   <li><a><Link to="/auth/login">Login</Link></a></li>

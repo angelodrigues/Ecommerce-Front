@@ -150,137 +150,143 @@ export default function ManagementProduct() {
   };
 
   return (
-    <div className="checkout-section">
-      <SupplierModal open={modalOpen} onClose={() => setModalOpen(false)} onAddSupplier={handleAddSupplier} />
-      <StockModal open={stockModalOpen} onClose={() => setStockModalOpen(false)} onAddStock={handleAddStock} productName={product.name} />
-      <h2 className="checkout-title">Product Management</h2>
-      <div className="checkout-address product-form-container">
-        <h3 className="management-subtitle">Register New Product</h3>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Supplier</label>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <select
-                className="custom-combobox"
-                name="supplierId"
-                value={product.supplierId}
-                onChange={handleChange}
-                required
-                style={{ flex: 1 }}
-              >
-                <option value="">Select a supplier</option>
-                {suppliers.map(s => (
-                  <option key={s.id} value={s.id}>{s.name}</option>
-                ))}
-              </select>
-              <button
-                type="button"
-                className="btn-fornecedor"
-                style={{ flex: 1 }}
-                onClick={() => setModalOpen(true)}
-              >
-                + Supplier
-              </button>
-            </div>
-          </div>
-          <div className="form-row">
-            <div className="form-group" style={{ flex: 1 }}>
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="name"
-                value={product.name}
-                onChange={handleChange}
-                required
-                style={{ width: '100%' }}
-              />
-            </div>
-            <div className="form-group" style={{ flex: 1, marginLeft: 8 }}>
-              <label>Price</label>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <span style={{ color: '#dc7e27', marginRight: 4 }}>$</span>
-                <input
-                  type="number"
-                  name="price"
-                  value={product.price}
+    <div className="user-section">
+      <div className="user-card">
+        <div className="user-header">
+          <h2 className="text-4xl text-white font-inter capitalize p-4">Product Management</h2>
+        </div>
+        <div className="user-content">
+          <div className="profile-section">
+            <h3 className="section-title">Register New Product</h3>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>Supplier</label>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <select
+                    className="custom-combobox"
+                    name="supplierId"
+                    value={product.supplierId}
+                    onChange={handleChange}
+                    required
+                    style={{ flex: 1 }}
+                  >
+                    <option value="">Select a supplier</option>
+                    {suppliers.map(s => (
+                      <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    className="btn-fornecedor"
+                    style={{ flex: 1 }}
+                    onClick={() => setModalOpen(true)}
+                  >
+                    + Supplier
+                  </button>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label>Product Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={product.name}
+                    onChange={handleChange}
+                    required
+                    style={{ width: '100%' }}
+                  />
+                </div>
+                <div className="form-group" style={{ flex: 1, marginLeft: 8 }}>
+                  <label>Price</label>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <span style={{ color: '#dc7e27', marginRight: 4 }}>$</span>
+                    <input
+                      type="number"
+                      name="price"
+                      value={product.price}
+                      onChange={handleChange}
+                      required
+                      step="0.01"
+                      min="0"
+                      style={{ flex: 1 }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <textarea
+                  name="description"
+                  value={product.description}
                   onChange={handleChange}
                   required
-                  step="0.01"
-                  min="0"
-                  style={{ flex: 1 }}
+                  rows="3"
+                  className="styled-textarea"
                 />
               </div>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>Description</label>
-            <textarea
-              name="description"
-              value={product.description}
-              onChange={handleChange}
-              required
-              rows="3"
-              className="styled-textarea"
-            />
-          </div>
-          <div className="form-row">
-            <div className="form-group" style={{ flex: 1 }}>
-              <label>Stock</label>
-              <select
-                className="custom-combobox"
-                value={stockData ? stockData.location : ''}
-                disabled={false}
-                style={{ width: '100%' }}
-              >
-                <option value="">Select a stock</option>
-                {mockedStocks.map((s, idx) => (
-                  <option key={idx} value={s.location}>
-                    {s.location} - {s.productName} (Qty: {s.quantity})
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group" style={{ display: 'flex', alignItems: 'flex-end', marginLeft: 8 }}>
-              <button
-                type="button"
-                className="btn-fornecedor"
-                onClick={() => setStockModalOpen(true)}
-                style={{ width: '100%' }}
-              >
-                + Stock
-              </button>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>Product Image</label>
-            <div {...getRootProps()} className="dropzone" style={{
-              border: '2px dashed #dc7e27',
-              borderRadius: 8,
-              padding: 16,
-              textAlign: 'center',
-              background: 'rgba(255,255,255,0.03)',
-              color: '#fff',
-              cursor: 'pointer',
-              marginBottom: 12
-            }}>
-              <input {...getInputProps()} />
-              {isDragActive ? (
-                <p>Drop the image here ...</p>
-              ) : (
-                <p>Drag an image or click to select</p>
-              )}
-              {imagePreview && (
-                <div style={{ marginTop: 12 }}>
-                  <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: 180, borderRadius: 8, boxShadow: '0 2px 8px #0006' }} />
+              <div className="form-row">
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label>Stock</label>
+                  <select
+                    className="custom-combobox"
+                    value={stockData ? stockData.location : ''}
+                    disabled={false}
+                    style={{ width: '100%' }}
+                  >
+                    <option value="">Select a stock</option>
+                    {mockedStocks.map((s, idx) => (
+                      <option key={idx} value={s.location}>
+                        {s.location} - {s.productName} (Qty: {s.quantity})
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              )}
-            </div>
+                <div className="form-group" style={{ display: 'flex', alignItems: 'flex-end', marginLeft: 8 }}>
+                  <button
+                    type="button"
+                    className="btn-fornecedor"
+                    onClick={() => setStockModalOpen(true)}
+                    style={{ width: '100%' }}
+                  >
+                    + Stock
+                  </button>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Product Image</label>
+                <div {...getRootProps()} className="dropzone" style={{
+                  border: '2px dashed #dc7e27',
+                  borderRadius: 8,
+                  padding: 16,
+                  textAlign: 'center',
+                  background: 'rgba(255,255,255,0.03)',
+                  color: '#fff',
+                  cursor: 'pointer',
+                  marginBottom: 12
+                }}>
+                  <input {...getInputProps()} />
+                  {isDragActive ? (
+                    <p>Drop the image here ...</p>
+                  ) : (
+                    <p>Drag an image or click to select</p>
+                  )}
+                  {imagePreview && (
+                    <div style={{ marginTop: 12 }}>
+                      <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: 180, borderRadius: 8, boxShadow: '0 2px 8px #0006' }} />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <button type="submit" className="btn-fornecedor" style={{ marginTop: 24 }}>
+                Register Product
+              </button>
+            </form>
           </div>
-          <button type="submit" className="btn-fornecedor" style={{ marginTop: 24 }}>
-            Register Product
-          </button>
-        </form>
+        </div>
       </div>
+      <SupplierModal open={modalOpen} onClose={() => setModalOpen(false)} onAddSupplier={handleAddSupplier} />
+      <StockModal open={stockModalOpen} onClose={() => setStockModalOpen(false)} onAddStock={handleAddStock} productName={product.name} />
     </div>
   );
 }
