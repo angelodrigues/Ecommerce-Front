@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import './checkout.css';
 import CreditCardPreview from '../../../components/creditCard/CreditCardPreview';
 import { getAuthToken } from '../../../authCheck/tokenUtils';
+import { useNavigate } from 'react-router';
 
 export default function Checkout() {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, setCart } = useCart();
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const token = getAuthToken();
+  const navigate = useNavigate();
 
   const [step, setStep] = useState(1); // 1: Carrinho, 2: Endereço, 3: Pagamento
   const [addresses, setAddresses] = useState([]);
@@ -87,6 +89,13 @@ export default function Checkout() {
     }
 
     setNewAddress({ zipCode: '', street: '', number: '', complement: '', neighborhood: '', city: '', state: '', defaultAddress: false });
+  };
+
+  const handleCompletePurchase = async () => {
+    if (!selectedAddress || !paymentMethod || cart.length === 0) return;
+    // Simula criação da ordem (apenas visual)
+    setCart([]); // Limpa carrinho
+    navigate('/auth/user/orders');
   };
 
   return (
@@ -214,7 +223,7 @@ export default function Checkout() {
           </button>
         )}
         {step === 3 && (
-          <button className="cart-continue" disabled={!canFinish}>
+          <button className="cart-continue" disabled={!canFinish} onClick={handleCompletePurchase}>
             Complete Purchase
           </button>
         )}
