@@ -1,11 +1,11 @@
 .login-section {
     display: flex;
-    justify-content: flex-end; 
+    justify-content: center;
     align-items: center;
     flex-grow: 1;
     padding: 0rem 2.7rem;
     background-color: #302c2c;
-    height: 935px;
+    height: 100vh;
   }
   
   .login-card {
@@ -14,10 +14,10 @@
     -webkit-backdrop-filter: blur(25px) saturate(150%);
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.132); 
-    padding: 1.5rem 2.5rem 1.5rem 2.5rem;
-    width: 1000px;
-    max-width: 4060px;
-    height: 600px;
+    padding: 3rem 4rem 3rem 4rem;
+    width: 100%;
+    max-width: 600px;
+    min-width: 320px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37); 
     color: white;
     transition: all 0.5s ease;

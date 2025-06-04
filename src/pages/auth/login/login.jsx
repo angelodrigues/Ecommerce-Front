@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../../authCheck/AuthContext';
 import './login.css';
+import { Armchair } from "lucide-react";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -77,7 +78,10 @@ export default function Login() {
   return (
     <div className="login-section">
       <div className="login-card">
-        <h2 className="text-4xl text-white font-inter capitalize p-4 pb-[80px]">
+        <div className="flex flex-col items-center justify-center mb-2">
+          <Armchair size={48} color="#dc7e27" />
+        </div>
+        <h2 className="text-4xl text-white font-inter capitalize p-4 pb-[80px] text-center">
           {isLogin ? 'Login' : 'Sign Up'}
         </h2>
         <form className="p-4 form" onSubmit={handleSubmit}>

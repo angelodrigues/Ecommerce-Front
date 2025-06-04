@@ -46,6 +46,24 @@ export default function User() {
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
     setEditedAddress(prev => ({ ...prev, [name]: value }));
+    if (name === 'zipCode') {
+      const cep = value.replace(/\D/g, '');
+      if (cep.length === 8) {
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+          .then(res => res.json())
+          .then(data => {
+            if (!data.erro) {
+              setEditedAddress(prev => ({
+                ...prev,
+                street: data.logradouro,
+                neighborhood: data.bairro,
+                city: data.localidade,
+                state: data.uf
+              }));
+            }
+          });
+      }
+    }
   };
 
   const handleSave = async () => {
