@@ -60,9 +60,6 @@ export default function Navbar() {
                         <button className="btn capitalize text-white" onClick={() => navigate('/cart')}>
                             <ShoppingCart color="#dc7e27" /> cart <div className="badge badge-sm bg-[#dc7e27]">{cartCount}</div>
                         </button>
-                        <button className="btn capitalize text-white">
-                            <Heart color="#dc7e27" />
-                        </button>
 
                         <div className="dropdown">
                             <div tabIndex={0} role="button" className="btn m-1"><User color="#dc7e27" /></div>
@@ -113,36 +110,20 @@ export default function Navbar() {
                                 Home
                             </NavLink>
                             <NavLink 
-                                to='/shop' 
-                                className={({ isActive }) => 
-                                    `text-sm font-inter font-medium capitalize ${isActive ? 'text-[#dc7e27]' : 'text-white hover:text-[#dc7e27]'}`
-                                }
-                            >
-                                shop
-                            </NavLink>
-                            <NavLink 
                                 to='/product' 
                                 className={({ isActive }) => 
                                     `text-sm font-inter font-medium capitalize ${isActive ? 'text-[#dc7e27]' : 'text-white hover:text-[#dc7e27]'}`
                                 }
                             >
-                                product
+                                Product
                             </NavLink>
-                            {/* <NavLink 
-                                to='/pages' 
-                                className={({ isActive }) => 
-                                    `text-sm font-inter font-medium capitalize ${isActive ? 'text-[#dc7e27]' : 'text-white hover:text-[#dc7e27]'}`
-                                }
-                            >
-                                pages
-                            </NavLink> */}
                             <NavLink 
                                 to='/about' 
                                 className={({ isActive }) => 
                                     `text-sm font-inter font-medium capitalize ${isActive ? 'text-[#dc7e27]' : 'text-white hover:text-[#dc7e27]'}`
                                 }
                             >
-                                about
+                                About
                             </NavLink>
                         </nav>
                     </div>
