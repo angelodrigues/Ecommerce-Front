@@ -11,6 +11,7 @@ import ManagementProduct from "../pages/product/management/managementProduct";
 import { User } from "../pages/user";
 import { Cart } from "../pages/cart";
 import Checkout from "../pages/cart/checkout/Checkout";
+import About from "../pages/about/About";
 
 export default function Main() {
   return (
@@ -34,6 +35,7 @@ export default function Main() {
                 } />
               </Route>
               <Route path='/error' element={<Error />} />
+              <Route path='/about' element={<About />} />
               <Route path='*' element={<Error />} />
            </Routes>
         </BrowserRouter>

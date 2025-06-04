@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SectionTitle from "../section/sectionTitle";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "../../service/CartContext";
+import { getAllProducts, getProductImageUrl } from "../../service/productService";
 
 export default function Product() {
 
@@ -11,6 +12,10 @@ export default function Product() {
         id: 0,
         product: 'all'
     });
+
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const productTitle = [
         {
@@ -24,223 +29,35 @@ export default function Product() {
             product: 'newest'
         },
         {
-            id: 2,
-            title: "trending",
-            product: 'trending'
-        },
-        {
             id: 3,
             title: "best seller",
             product: 'best_seller'
         },
     ];
 
-    const products = [
-        {
-            id: 1,
-            title: 'library stool',
-            status: 'New',
-            price: '$250',
-            image: '/assets/products/product_1.png',
-            currentPrice: '$200',
-            product: 'newest',
-        },
-        {
-            id: 2,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_2.png',
-            product: 'newest',
-        },
-        {
-            id: 3,
-            title: 'library stool',
-            status: 'New',
-            price: '$250',
-            image: '/assets/products/product_3.png',
-            currentPrice: '$200',
-            product: 'newest',
-        },
-        {
-            id: 4,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_4.png',
-            product: 'newest',
-        },
+    useEffect(() => {
+        setLoading(true);
+        getAllProducts()
+            .then(data => {
+                // Adiciona categorias fixas para popular as sessões
+                const withCategories = data.map((prod, idx, arr) => {
+                    let category = 'all';
+                    if (idx >= arr.length - 4) category = 'newest';
+                    if ([0, 3, 5, 7].includes(idx)) category = 'best_seller';
+                    return { ...prod, category };
+                });
+                setProducts(withCategories);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError('Erro ao buscar produtos');
+                setLoading(false);
+            });
+    }, []);
 
-        {
-            id: 5,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_5.png',
-            product: 'trending',
-        },
-        {
-            id: 6,
-            title: 'library stool',
-            status: 'New',
-            price: '$250',
-            image: '/assets/products/product_6.png',
-            currentPrice: '$200',
-            product: 'trending',
-        },
-        {
-            id: 7,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_7.png',
-            product: 'trending',
-        },
-        {
-            id: 8,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_8.png',
-            product: 'trending',
-        },
-        {
-            id: 9,
-            title: 'library stool',
-            status: 'New',
-            price: '$250',
-            image: '/assets/products/product_1.png',
-            currentPrice: '$200',
-            product: 'best_seller',
-        },
-        {
-            id: 10,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_2.png',
-            product: 'best_seller',
-        },
-        {
-            id: 11,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_3.png',
-            product: 'best_seller',
-        },
-        {
-            id: 12,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_5.png',
-            product: 'best_seller',
-        },
-        {
-            id: 13,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_6.png',
-            product: 'featured',
-        },
-        {
-            id: 14,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_7.png',
-            product: 'featured',
-        },
-        {
-            id: 15,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_8.png',
-            product: 'featured',
-        },
-        {
-            id: 16,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_1.png',
-            product: 'featured',
-        },
-        {
-            id: 17,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_2.png',
-            product: 'all',
-        },
-        {
-            id: 18,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_3.png',
-            product: 'all',
-        },
-        {
-            id: 19,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_4.png',
-            product: 'all',
-        },
-        {
-            id: 20,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_5.png',
-            product: 'all',
-        },
-        {
-            id: 21,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_6.png',
-            product: 'all',
-        },
-        {
-            id: 22,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_7.png',
-            product: 'all',
-        },
-        {
-            id: 23,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_8.png',
-            product: 'all',
-        },
-        {
-            id: 24,
-            title: 'library stool Chair',
-            status: 'Sales',
-            price: '$250',
-            image: '/assets/products/product_1.png',
-            product: 'all',
-        },
-
-
-    ];
-
-
-    const productFilter = products.filter(product => product.product === active?.product);
-    console.log(productFilter);
-
+    const productFilter = active.product === 'all'
+        ? products
+        : products.filter(product => product.category === active.product);
 
     return (
         <div className="lg:container mx-auto bg-[#302c2c]">
@@ -258,7 +75,7 @@ export default function Product() {
                                     product: title?.product
                                 })}
                                 className={`text-base font-black uppercase font-inter cursor-pointer ${
-                                    active?.id === indx ? 'text-[#dc7e27]' : 'text-gray-400 hover:text-[#dc7e27]'
+                                    active?.id === title?.id ? 'text-[#dc7e27]' : 'text-gray-400 hover:text-[#dc7e27]'
                                 }`}>
                                 {title?.title}
                             </button>
@@ -270,46 +87,41 @@ export default function Product() {
 
             <div className="grid grid-cols-4 items-center gap-6">
                 {
-
-                    productFilter?.map((product, index) => (
-                        <div key={index} className="p-4 bg-[#3a3636] rounded-lg">
-                            <div className="feature_image mb-4 relative">
-                                <img className="w-full max-h-[312px] rounded-lg object-cover" src={product?.image} alt={product?.title} />
-                                {
-                                    product?.status && (
-                                        <div className="absolute top-4 left-4 bg-[#dc7e27] text-white px-2 py-1 rounded-lg">
-                                            <button className="text-sm font-inter font-normal">{product?.status}</button>
-                                        </div>
-                                    )
-                                }
-                            </div>
-                            <div className="feature_content">
-                                <div className="flex items-center justify-between">
-                                    <h4 className="text-base text-[#dc7e27] capitalize font-inter font-normal mb-4">{product?.title}</h4>
-                                    <span
-                                        className="bg-[#dc7e27] h-[44px] w-[44px] rounded-lg flex items-center justify-center hover:bg-[#e8934a] transition-colors cursor-pointer"
-                                        onClick={() => addToCart({ 
-                                            id: product.id,
-                                            name: product.title, 
-                                            price: Number(product.price.replace('$', '')), 
-                                            quantity: 1, 
-                                            image: product.image 
-                                        })}
-                                    >
-                                        <ShoppingCart size='1.5rem' color="#fff" />
-                                    </span>
+                    loading ? (
+                        <div className="col-span-4 text-center text-white">Carregando produtos...</div>
+                    ) : error ? (
+                        <div className="col-span-4 text-center text-red-500">{error}</div>
+                    ) : productFilter.length === 0 ? (
+                        <div className="col-span-4 text-center text-white">Nenhum produto encontrado.</div>
+                    ) : (
+                        productFilter.map((product, index) => (
+                            <div key={product.id} className="p-4 bg-[#3a3636] rounded-lg">
+                                <div className="feature_image mb-4 relative">
+                                    <img className="w-full max-h-[312px] rounded-lg object-cover" src={getProductImageUrl(product.id)} alt={product.name || product.title} />
                                 </div>
-                                <p className="text-xl flex items-center gap-2 text-white font-semibold font-inter">
-                                    {product?.price}
-                                    {
-                                        product?.currentPrice && (
-                                            <span className="text-sm text-gray-400 font-inter font-normal">{product?.currentPrice}</span>
-                                        )
-                                    }
-                                </p>
+                                <div className="feature_content">
+                                    <div className="flex items-center justify-between">
+                                        <h4 className="text-base text-[#dc7e27] capitalize font-inter font-normal mb-4">{product.name || product.title}</h4>
+                                        <span
+                                            className="bg-[#dc7e27] h-[44px] w-[44px] rounded-lg flex items-center justify-center hover:bg-[#e8934a] transition-colors cursor-pointer"
+                                            onClick={() => addToCart({ 
+                                                id: product.id,
+                                                name: product.name || product.title, 
+                                                price: Number(product.price), 
+                                                quantity: 1, 
+                                                image: getProductImageUrl(product.id)
+                                            })}
+                                        >
+                                            <ShoppingCart size='1.5rem' color="#fff" />
+                                        </span>
+                                    </div>
+                                    <p className="text-xl flex items-center gap-2 text-white font-semibold font-inter">
+                                        R$ {Number(product.price).toFixed(2)}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    ))
+                        ))
+                    )
                 }
             </div>
         </div>

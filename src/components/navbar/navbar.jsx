@@ -94,9 +94,6 @@ export default function Navbar() {
                             <div tabIndex={0} role="button" className="btn m-1 flex items-center gap-5 capitalize text-white"> <Menu color="#dc7e27" /> all categories</div>
                             <ul tabIndex={0} className="dropdown-content menu bg-[#3a3636] text-white rounded-box z-1 w-52 p-2 shadow-sm">
                                 <li><a>Chair</a></li>
-                                <li><a>Pant</a></li>
-                                <li><a>Shirt</a></li>
-                                <li><a>T-Shirt</a></li>                                
                             </ul>
                         </div>
 
