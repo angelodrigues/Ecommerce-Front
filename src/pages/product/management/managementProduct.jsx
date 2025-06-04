@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { useDropzone } from 'react-dropzone';
 import { getSuppliers } from '../../../../src/service/supplierService';
 import { getStocks } from '../../../../src/service/stockService';
+import { getAuthToken } from '../../../authCheck/tokenUtils';
 import './managementProduct.css';
 
 function SupplierModal({ open, onClose, onAddSupplier }) {
@@ -93,7 +94,8 @@ export default function ManagementProduct() {
     description: '',
     price: '',
     stock: '',
-    supplierId: ''
+    supplierId: '',
+    sku: ''
   });
   const [suppliers, setSuppliers] = useState([]);
   const [stocks, setStocks] = useState([]);
@@ -149,10 +151,58 @@ export default function ManagementProduct() {
     accept: { 'image/*': [] }
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement registration logic, including imageFile upload
-    console.log('Product data:', product, imageFile);
+    try {
+      const token = getAuthToken();
+      // 1. Enviar dados do produto
+      const supplier = suppliers.find(s => String(s.id) === String(product.supplierId));
+      const payload = {
+        name: product.name,
+        description: product.description,
+        price: Number(product.price),
+        sku: product.sku,
+        supplierId: Number(product.supplierId),
+        supplierName: supplier ? supplier.name : ''
+      };
+      const res = await fetch('http://52.67.254.235:8090/product', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Erro ao cadastrar produto');
+      const created = await res.json();
+      const productId = created.id;
+
+      // 2. Se houver imagem, converter para base64 e enviar
+      if (imageFile) {
+        const toBase64 = file => new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result.split(',')[1]);
+          reader.onerror = error => reject(error);
+        });
+        const imageData = await toBase64(imageFile);
+        const imagePayload = {
+          imageData,
+          productId,
+          supplierId: Number(product.supplierId),
+          logo: false
+        };
+        const imgRes = await fetch('http://52.67.254.235:8090/product-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify(imagePayload)
+        });
+        if (!imgRes.ok) throw new Error('Erro ao enviar imagem do produto');
+      }
+      alert('Produto cadastrado com sucesso!');
+      setProduct({ name: '', description: '', price: '', stock: '', supplierId: '', sku: '' });
+      setImageFile(null);
+      setImagePreview(null);
+    } catch (err) {
+      alert(err.message || 'Erro ao cadastrar produto');
+    }
   };
 
   const handleAddSupplier = (newSupplier) => {
@@ -212,20 +262,47 @@ export default function ManagementProduct() {
                   />
                 </div>
                 <div className="form-group" style={{ flex: 1, marginLeft: 8 }}>
-                  <label>Price</label>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <span style={{ color: '#dc7e27', marginRight: 4 }}>$</span>
-                    <input
-                      type="number"
-                      name="price"
-                      value={product.price}
-                      onChange={handleChange}
-                      required
-                      step="0.01"
-                      min="0"
-                      style={{ flex: 1 }}
-                    />
-                  </div>
+                  <label>SKU</label>
+                  <input
+                    type="text"
+                    name="sku"
+                    value={product.sku || ''}
+                    onChange={handleChange}
+                    required
+                    style={{ width: '100%' }}
+                  />
+                </div>
+              </div>
+              <div className="form-group" style={{ flex: 1, marginLeft: 8 }}>
+                <label>Price</label>
+                <div style={{ position: 'relative' }}>
+                  <span
+                    style={{
+                      position: 'absolute',
+                      left: 12,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: '#dc7e27',
+                      fontWeight: 600,
+                      pointerEvents: 'none',
+                      fontSize: '1.1rem'
+                    }}
+                  >
+                    $
+                  </span>
+                  <input
+                    type="number"
+                    name="price"
+                    value={product.price}
+                    onChange={handleChange}
+                    required
+                    step="0.01"
+                    min="0"
+                    style={{
+                      width: '100%',
+                      paddingLeft: 32
+                    }}
+                  />
                 </div>
               </div>
               <div className="form-group">
