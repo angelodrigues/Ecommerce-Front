@@ -115,16 +115,35 @@ export default function Checkout() {
       {step === 2 && (
         <div className="checkout-address">
           <h3 className="checkout-subtitle">Delivery Address</h3>
-          {addresses.length > 0 && (
-            <div className="address-list">
-              {addresses.map(addr => (
-                <div key={addr.id} className={`address-item ${selectedAddress?.id === addr.id ? 'selected' : ''}`} onClick={() => setSelectedAddress(addr)}>
-                  <div className="address-header">
-                    <span className="address-title">{addr.street}, {addr.number} {addr.defaultAddress && <span className="default-badge">Default</span>}</span>
+          {addresses.length > 0 ? (
+            <>
+              <div className="address-list">
+                {addresses.map(addr => (
+                  <div 
+                    key={addr.id} 
+                    className={`address-item ${selectedAddress?.id === addr.id ? 'selected' : ''}`} 
+                    onClick={() => setSelectedAddress(addr)}
+                  >
+                    <div className="address-header">
+                      <span className="address-title">
+                        {addr.street}, {addr.number}
+                        {addr.defaultAddress && <span className="default-badge">Default</span>}
+                      </span>
+                    </div>
+                    <p className="address-details">
+                      {addr.complement && `${addr.complement} - `}
+                      {addr.neighborhood}, {addr.city} - {addr.state}
+                    </p>
                   </div>
-                  <p className="address-details">{addr.complement && `${addr.complement} - `}{addr.neighborhood}, {addr.city} - {addr.state}</p>
-                </div>
-              ))}
+                ))}
+              </div>
+              <div className="address-separator">
+                <span>Or add a new address</span>
+              </div>
+            </>
+          ) : (
+            <div className="no-addresses-message">
+              <p>You don't have any saved addresses. Please add a new address below.</p>
             </div>
           )}
 

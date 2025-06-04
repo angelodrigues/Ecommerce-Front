@@ -1,20 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useDropzone } from 'react-dropzone';
+import { getSuppliers } from '../../../../src/service/supplierService';
+import { getStocks } from '../../../../src/service/stockService';
 import './managementProduct.css';
-
-// Mock suppliers (replace with API fetch later)
-const mockSuppliers = [
-  { id: 1, name: 'Supplier A' },
-  { id: 2, name: 'Supplier B' },
-  { id: 3, name: 'Supplier C' },
-];
-
-// Mocked stock data for demonstration
-const mockedStocks = [
-  { location: 'Warehouse A', productName: 'Product X', quantity: 100, minimumQuantity: 10 },
-  { location: 'Warehouse B', productName: 'Product Y', quantity: 50, minimumQuantity: 5 }
-];
 
 function SupplierModal({ open, onClose, onAddSupplier }) {
   const [supplier, setSupplier] = useState({
@@ -106,13 +95,38 @@ export default function ManagementProduct() {
     stock: '',
     supplierId: ''
   });
-  const [suppliers, setSuppliers] = useState(mockSuppliers);
+  const [suppliers, setSuppliers] = useState([]);
+  const [stocks, setStocks] = useState([]);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [stockModalOpen, setStockModalOpen] = useState(false);
   const [stockData, setStockData] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log('Buscando fornecedores...');
+        const suppliersData = await getSuppliers();
+        console.log('Fornecedores recebidos:', suppliersData);
+        setSuppliers(suppliersData);
+
+        console.log('Buscando estoques...');
+        const stocksData = await getStocks();
+        console.log('Estoques recebidos:', stocksData);
+        setStocks(stocksData);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+        if (error.message.includes('Erro ao buscar fornecedores')) {
+          console.error('Falha ao buscar fornecedores');
+        } else if (error.message.includes('Erro ao buscar estoques')) {
+          console.error('Falha ao buscar estoques');
+        }
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -235,7 +249,7 @@ export default function ManagementProduct() {
                     style={{ width: '100%' }}
                   >
                     <option value="">Select a stock</option>
-                    {mockedStocks.map((s, idx) => (
+                    {stocks.map((s, idx) => (
                       <option key={idx} value={s.location}>
                         {s.location} - {s.productName} (Qty: {s.quantity})
                       </option>
