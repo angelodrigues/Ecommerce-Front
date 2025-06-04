@@ -74,6 +74,9 @@ export default function Navbar() {
                                   <li><button onClick={() => navigate('/auth/user')}>Profile</button></li>
                                 )}
                                 {user && (
+                                  <li><button onClick={() => navigate('/auth/user/orders')}>My Orders</button></li>
+                                )}
+                                {user && (
                                   <li><button onClick={() => navigate('/product/management')}>Manage Products</button></li>
                                 )}
                                 {!user && (

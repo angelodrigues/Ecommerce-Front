@@ -12,6 +12,7 @@ import { User } from "../pages/user";
 import { Cart } from "../pages/cart";
 import Checkout from "../pages/cart/checkout/Checkout";
 import About from "../pages/about/About";
+import Orders from "../pages/user/Orders";
 
 export default function Main() {
   return (
@@ -35,6 +36,11 @@ export default function Main() {
                 <Route path='user' element={
                   <AuthCheck>
                     <User />
+                  </AuthCheck>
+                } />
+                <Route path='user/orders' element={
+                  <AuthCheck>
+                    <Orders />
                   </AuthCheck>
                 } />
               </Route>
